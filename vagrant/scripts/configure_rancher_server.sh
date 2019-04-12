@@ -10,11 +10,12 @@ curl_prefix="appropriate"
 protocol="http"
 
 ros config set rancher.docker.storage_driver overlay
+ros config set rancher.docker.registry_mirror http://f1361db2.m.daocloud.io
 ros engine switch docker-1.12.6
 system-docker restart docker
 sleep 5
 
-rancher_command="rancher/rancher:$rancher_server_version" 
+rancher_command="rancher/rancher:$rancher_server_version"
 
 echo Installing Rancher Server
 sudo docker run -d --restart=always \
@@ -27,15 +28,18 @@ $rancher_command
 
 # wait until rancher server is ready
 while true; do
-  wget -T 5 -c https://localhost/ping && break
+  netstat -an | grep :::443 && break
   sleep 5
 done
 
 # Login
-LOGINRESPONSE=$(docker run --net=host \
-    --rm \
-    $curl_prefix/curl \
-    -s "https://127.0.0.1/v3-public/localProviders/local?action=login" -H 'content-type: application/json' --data-binary '{"username":"admin","password":"admin"}' --insecure)
+while [ -z "$LOGINRESPONSE" ]; do
+  LOGINRESPONSE=$(docker run --net=host \
+      --rm \
+      $curl_prefix/curl \
+      -s "https://127.0.0.1/v3-public/localProviders/local?action=login" -H 'content-type: application/json' --data-binary '{"username":"admin","password":"admin"}' --insecure)
+  sleep 5
+done
 
 LOGINTOKEN=$(echo $LOGINRESPONSE | jq -r .token)
 
