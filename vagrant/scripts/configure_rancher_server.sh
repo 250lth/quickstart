@@ -11,7 +11,7 @@ protocol="http"
 
 ros config set rancher.docker.storage_driver overlay
 ros config set rancher.docker.registry_mirror http://f1361db2.m.daocloud.io
-ros engine switch docker-1.12.6
+ros engine switch docker-latest
 system-docker restart docker
 sleep 5
 
