@@ -6,11 +6,6 @@ jqimage="stedolan/jq"
 
 agent_ip=`ip addr show eth1 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1`
 
-ros engine switch docker-latest
-ros config set rancher.docker.registry_mirror http://f1361db2.m.daocloud.io
-system-docker restart docker
-sleep 5
-
 for image in $curlimage $jqimage; do
   until docker inspect $image > /dev/null 2>&1; do
     docker pull $image
@@ -46,7 +41,7 @@ while true; do
     $curlimage \
       -sLk \
       -H "Authorization: Bearer $LOGINTOKEN" \
-      "https://$rancher_server_ip/v3/clusters?name=my-sandbox" | docker run --rm -i $jqimage -r '.data[].id')
+      "https://$rancher_server_ip/v3/clusters?name=quickstart" | docker run --rm -i $jqimage -r '.data[].id')
 
   if [ -n "$CLUSTERID" ]; then
     break
