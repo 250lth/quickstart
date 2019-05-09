@@ -1,14 +1,14 @@
 default_password: admin
 version: latest
-kubernetes_version: v1.12.7-rancher1-1
-ROS_version: 1.5.0
+kubernetes_version: ""
+ROS_version: 1.5.1
 server:
   cpus: 1
-  memory: 1500
+  memory: 2000
 node:
   count: 3
   cpus: 1
-  memory: 1500
+  memory: 2000
 ip:
   master: 172.22.101.100
   server: 172.22.101.101

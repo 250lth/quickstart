@@ -2,8 +2,8 @@
 
 rancher_server_ip="172.22.101.101"
 default_password=${1:-password}
-rancher_server_version=${2:-stable}
-kubernetes_version=${3:-v1.12.7-rancher1-1}
+rancher_server_version=${2:-latest}
+kubernetes_version=${3}
 registry_prefix="rancher"
 curl_prefix="appropriate"
 
