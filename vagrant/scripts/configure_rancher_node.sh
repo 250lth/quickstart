@@ -4,6 +4,9 @@ admin_password=${2:-password}
 curlimage="appropriate/curl"
 jqimage="stedolan/jq"
 
+ros config set rancher.docker.registry_mirror http://f1361db2.m.daocloud.io
+system-docker restart docker
+
 agent_ip=`ip addr show eth1 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1`
 
 for image in $curlimage $jqimage; do

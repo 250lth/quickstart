@@ -7,6 +7,9 @@ k8s_version=$3
 curlimage="appropriate/curl"
 jqimage="stedolan/jq"
 
+ros config set rancher.docker.registry_mirror http://f1361db2.m.daocloud.io
+system-docker restart docker
+
 for image in $curlimage $jqimage "rancher/rancher:${rancher_version}"; do
   until docker inspect $image > /dev/null 2>&1; do
     docker pull $image
