@@ -1,0 +1,8 @@
+{
+    "registry-mirrors": [
+        "http://f1361db2.m.daocloud.io",
+        "http://registry.docker-cn.com",
+        "http://docker.mirrors.ustc.edu.cn",
+        "http://hub-mirror.c.163.com"
+    ]
+}
