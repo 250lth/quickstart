@@ -1,0 +1,36 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+
+  config.vm.define "server-01" do |server|
+    server.vm.box = "chrisurwin/RancherOS"
+
+    server.vm.provider :virtualbox do |v|
+      v.cpus = 1
+      v.memory = 1024
+      v.name = "server-01"
+    end
+
+    server.vm.provision "shell", path: "scripts/k3s_server.sh"
+  end
+
+  (1..2).each do |i|
+    hostname = "agent-%02d" % i
+    config.vm.define hostname do |agent|
+      agent.vm.box = "chrisurwin/RancherOS"
+
+      agent.vm.provider :virtualbox do |v|
+        v.cpus = 1
+        v.memory = 1024
+        v.name = hostname
+      end
+
+      agent.vm.provision "shell", path: "scripts/k3s_agent.sh"
+    end
+  end
+end
